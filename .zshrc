@@ -59,7 +59,26 @@ plugins=(git
 	command-not-found)
 	
 
+start_nvim() {
+    # Start the headless Neovim server
+    nvim --headless --listen localhost:6666 > /dev/null 2>&1 &
+    NVIM_PID=$!
 
+    # Wait for the server to start
+    while ! lsof -i :6666 >/dev/null 2>&1; do
+        sleep 0.1
+    done
+
+    # Start Neovide and connect to the server
+    neovide.exe --server=localhost:6666 > /dev/null 2>&1 &
+    NEOVIDE_PID=$!
+
+    # Disown the background processes
+    disown $NVIM_PID
+    disown $NEOVIDE_PID
+}
+
+alias vim=start_nvim
 
 alias cppath=copypath
 alias cpfile=copyfile
@@ -95,8 +114,6 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.local/share/bob/nvim-bin
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-alias vim=nvim
-alias ivm=nvim
 source /home/aryan/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 alias jj=zellij
 alias lz=lazygit
