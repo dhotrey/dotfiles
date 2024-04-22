@@ -58,7 +58,8 @@ plugins=(git
 	colored-man-pages
 	command-not-found)
 	
-alias vim=~/dotfiles/./start_nvim.sh
+alias ivm=~/dotfiles/./start_nvim.sh
+alias vim=nvim
 
 alias cppath=copypath
 alias cpfile=copyfile

@@ -8,3 +8,4 @@ vim.cmd("set relativenumber")
 vim.cmd("set nowrap")
 vim.cmd("set incsearch")
 vim.cmd("set ignorecase")
+vim.g.neovide_transparency = 0.95
