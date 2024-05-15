@@ -13,7 +13,8 @@ return {
                     "lua_ls",
                     "gopls",
                     "ruff_lsp",
-                    "jedi_language_server" }
+                    "jedi_language_server",
+                }
 
             })
         end
@@ -27,7 +28,8 @@ return {
                 capabilities = capabilities
             })
             lspconfig.gopls.setup({
-                capabilities = capabilities
+                capabilities = capabilities,
+                filetypes = { "go", "gomod", "gowork", "gotmpl" }
             })
             lspconfig.ruff_lsp.setup({
                 on_attach = on_attach
