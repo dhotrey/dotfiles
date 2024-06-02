@@ -150,3 +150,4 @@ bindkey "^M" run_ls_if_empty
 
 alias la="ls -a"
 . "$HOME/.cargo/env"
+source ~/.secrets.sh
