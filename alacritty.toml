@@ -1,0 +1,93 @@
+
+#   █████╗ ██╗      █████╗  ██████╗██████╗ ██╗████████╗████████╗██╗   ██╗
+#  ██╔══██╗██║     ██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝╚══██╔══╝╚██╗ ██╔╝
+#  ███████║██║     ███████║██║     ██████╔╝██║   ██║      ██║    ╚████╔╝ 
+#  ██╔══██║██║     ██╔══██║██║     ██╔══██╗██║   ██║      ██║     ╚██╔╝  
+#  ██║  ██║███████╗██║  ██║╚██████╗██║  ██║██║   ██║      ██║      ██║   
+#  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝      ╚═╝   
+#	
+
+live_config_reload = true
+
+[cursor]
+blink_interval = 550
+unfocused_hollow = false
+thickness = 0.15
+
+[cursor.style]
+blinking = "On"
+shape = "Block"
+
+[selection]
+save_to_clipboard = true
+
+[window]
+decorations = "Full"
+dynamic_title = true
+opacity = 1.0
+dynamic_padding = true
+dimensions = { columns = 115 , lines = 23}
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[shell]
+program = "wsl.exe"
+args = ["~"]
+
+[font]
+builtin_box_drawing = true
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Bold Italic" }
+size = 14.0
+offset.y = 1
+
+
+# (Tokyo Night) color scheme for Emilia Rice
+
+# Default colors
+[colors.primary]
+background = "#1a1b26"
+foreground = "#a9b1d6"
+
+# Cursor colors
+[colors.cursor]
+cursor = "#bb9af7"
+text = "#1a1b26"
+
+# Normal colors
+[colors.normal]
+black = "#32344a"
+blue = "#7aa2f7"
+cyan = "#449dab"
+green = "#9ece6a"
+magenta = "#ad8ee6"
+red = "#f7768e"
+white = "#787c99"
+yellow = "#e0af68"
+
+# Bright colors
+[colors.bright]
+black = "#444b6a"
+blue = "#7da6ff"
+cyan = "#0db9d7"
+green = "#b9f27c"
+magenta = "#bb9af7"
+red = "#ff7a93"
+white = "#acb0d0"
+yellow = "#ff9e64"
+
+[keyboard]
+bindings = [
+    # Copy and Paste
+    { key = "C", mods = "Control|Shift", action = "Copy" },
+    { key = "V", mods = "Control|Shift", action = "Paste" },
+    # Font size
+    { key = "Equals", mods = "Control", action = "IncreaseFontSize" },
+    { key = "Plus", mods = "Control", action = "IncreaseFontSize" },
+    { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
+    { key = "Key0", mods = "Control", action = "ResetFontSize" }
+]
