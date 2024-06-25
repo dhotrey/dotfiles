@@ -38,6 +38,10 @@ return {
                 --on_attach = on_attach
                 capabilities = capabilities
             })
+
+            lspconfig.gleam.setup({
+                capabilities = capabilities
+            })
             vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, {})
             vim.keymap.set('n', '<Enter>', vim.lsp.buf.definition, {})
             vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
