@@ -14,6 +14,10 @@ return {
                     "gopls",
                     "ruff_lsp",
                     "jedi_language_server",
+                    "templ",
+                    "html",
+                    "htmx",
+                    "tailwindcss",
                 }
 
             })
@@ -35,13 +39,43 @@ return {
                 on_attach = on_attach
             })
             lspconfig.jedi_language_server.setup({
-                --on_attach = on_attach
                 capabilities = capabilities
             })
 
             lspconfig.gleam.setup({
                 capabilities = capabilities
             })
+
+            lspconfig.templ.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+            })
+
+            lspconfig.html.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                filetypes = { "html", "templ" }
+            })
+
+            lspconfig.htmx.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                filetypes = { "html", "templ" }
+            })
+
+            lspconfig.tailwindcss.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+                settings = {
+                    tailwindCSS = {
+                        includeLanguages = {
+                            templ = "html",
+                        },
+                    },
+                },
+            })
+
             vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, {})
             vim.keymap.set('n', '<Enter>', vim.lsp.buf.definition, {})
             vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})

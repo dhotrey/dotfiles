@@ -10,6 +10,13 @@ vim.cmd("set incsearch")
 vim.cmd("set ignorecase")
 vim.g.neovide_transparency = 0.99
 
+vim.filetype.add({
+    extension = {
+        templ = "templ",
+    },
+})
+
+
 -- remap <C-ww> and <C-w> to use alt.
 -- Map <A-w> to start window switching in normal mode
 vim.api.nvim_set_keymap('n', '<A-w>', '<C-w>', { noremap = true, silent = true })

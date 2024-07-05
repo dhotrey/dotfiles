@@ -26,7 +26,8 @@ return {
                     "javascript",
                     "dockerfile",
                     "markdown_inline",
-                    "make"
+                    "make",
+                    "templ",
                 },
                 auto_install = true,
                 highlight = { enable = true },
