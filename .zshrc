@@ -4,6 +4,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME='intheloop'
 
+# ZSH_THEME='robbyrussel'
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # HYPHEN_INSENSITIVE="true"

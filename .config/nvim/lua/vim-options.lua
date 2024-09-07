@@ -28,8 +28,8 @@ vim.api.nvim_set_keymap('i', '<A-e>', '<C-w>', { noremap = true, silent = true }
 -- Remap <A-l> to clear the screen (redraw)
 vim.api.nvim_set_keymap('n', '<A-l>', '<C-l>', { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n', '<leader-o>', '<C-o>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader-r>', '<C-r>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<A-o>', '<C-o>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<A-r>', '<C-r>', { noremap = true, silent = true })
 -- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 --     pattern = "*.go",
 --     callback = function()
