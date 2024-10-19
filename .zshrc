@@ -57,7 +57,8 @@ plugins=(git
 	copyfile
 	copypath
 	colored-man-pages
-	command-not-found)
+	command-not-found
+    virtualenvwrapper)
 	
 alias ivm=~/dotfiles/./start_nvim.sh
 alias vim=nvim
