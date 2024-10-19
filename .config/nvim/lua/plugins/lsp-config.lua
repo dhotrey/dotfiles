@@ -18,6 +18,7 @@ return {
                     "html",
                     "htmx",
                     "tailwindcss",
+                    "zls",
                 }
 
             })
@@ -61,6 +62,11 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 filetypes = { "html", "templ" }
+            })
+
+            lspconfig.zls.setup ({
+                on_attach = on_attach,
+                capabilities = capabilities,
             })
 
             lspconfig.tailwindcss.setup({
