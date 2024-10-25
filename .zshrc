@@ -155,3 +155,10 @@ alias la="ls -a"
 source ~/.secrets.sh
 
 alias x=exercism
+. "/home/aryan/.deno/env"
+# bun completions
+[ -s "/home/aryan/.bun/_bun" ] && source "/home/aryan/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

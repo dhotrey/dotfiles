@@ -64,7 +64,7 @@ return {
                 filetypes = { "html", "templ" }
             })
 
-            lspconfig.zls.setup ({
+            lspconfig.zls.setup({
                 on_attach = on_attach,
                 capabilities = capabilities,
             })
