@@ -65,6 +65,8 @@ alias vim=nvim
 
 alias cppath=copypath
 alias cpfile=copyfile
+alias yz=yazi
+alias dc="cd .."
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
