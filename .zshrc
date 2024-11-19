@@ -156,7 +156,6 @@ alias la="ls -a"
 . "$HOME/.cargo/env"
 source ~/.secrets.sh
 
-alias x=exercism
 . "/home/aryan/.deno/env"
 # bun completions
 [ -s "/home/aryan/.bun/_bun" ] && source "/home/aryan/.bun/_bun"
@@ -164,3 +163,12 @@ alias x=exercism
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+# Exercism shorthand function
+function x() {
+    if [ $# -eq 2 ]; then
+        exercism download --track=$1 --exercise=$2
+    else
+        echo "Usage: x <track> <exercise>"
+        echo "Example: x zig leap"
+    fi
+}
