@@ -27,6 +27,9 @@ return {
             g = {
                 name = "goto ",
                 r = "toggle lsp references"
+            },
+            a = {
+                name = "add buffer to harpoon"
             }
         }
         wk.register(mappings, opts)
