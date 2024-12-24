@@ -175,3 +175,12 @@ function x() {
 
 PATH="$PATH":"$HOME/.local/scripts/"
 bindkey -s "^[f" "tmux-sessionizer\n"
+
+
+# BEGIN opam configuration # THIS IS FOR OCAML INSTALLATION , INSTALL OCAML TO MAKE WORK
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/home/aryan/.opam/opam-init/init.zsh' ]] || source '/home/aryan/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
