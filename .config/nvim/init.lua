@@ -1,16 +1,50 @@
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system(
-        {
-            "git",
-            "clone",
-            "--filter=blob:none",
-            "https://github.com/folke/lazy.nvim.git",
-            "--branch=stable",
-            lazypath
-        }
-    )
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
-require("vim-options")
-require("lazy").setup("plugins")
+
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
+-- Setup lazy.nvim
+require("lazy").setup({
+  spec = {
+    -- Import LazyVim and its plugins
+    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- Import custom plugins
+    { import = "plugins" },
+  },
+  defaults = {
+    lazy = false, -- Custom plugins are not lazy-loaded by default
+    version = false, -- Always use the latest git commit
+  },
+  install = { colorscheme = { "tokyonight", "habamax" } },
+  checker = { enabled = true }, -- Automatically check for plugin updates
+  performance = {
+    rtp = {
+      -- Disable some rtp plugins for better performance
+      disabled_plugins = {
+        "gzip",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
