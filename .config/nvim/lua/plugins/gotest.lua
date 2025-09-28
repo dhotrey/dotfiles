@@ -7,14 +7,10 @@ return {
         vim.keymap.set({ 'n', 'v' }, '<leader>ta', ':GoTestsAll<CR>', {})
         -- documentation --
         local wk = require('which-key')
-        local opts = { prefix = '<leader>' }
-        local mappings = {
-            t = {
-                name = "generate tests",
-                a = "generate tests for all functions",
-                o = "generate test for one function"
-            },
-        }
-        wk.register(mappings, opts)
+        wk.add({
+            { "<leader>t", group = "generate tests" },
+            { "<leader>ta", desc = "generate tests for all functions" },
+            { "<leader>to", desc = "generate test for one function" },
+        })
     end
 }

@@ -12,26 +12,16 @@ return {
         vim.keymap.set("n", "<leader>gr", function() require("trouble").toggle("lsp_references") end)
         -- documentation --
         local wk = require("which-key")
-        local opts = {
-            prefix = "<leader>"
-        }
-        local mappings = {
-            p = {
-                name = "problem",
-                p = "im not sure what pp does",
-                w = "toggle problems inside the workspace",
-                d = "toggle problems inside the document",
-                q = "toggle quickfixes for problems",
-                l = "toggle loclist"
-            },
-            g = {
-                name = "goto ",
-                r = "toggle lsp references"
-            },
-            a = {
-                name = "add buffer to harpoon"
-            }
-        }
-        wk.register(mappings, opts)
+        wk.add({
+            { "<leader>p", group = "problem" },
+            { "<leader>pp", desc = "im not sure what pp does" },
+            { "<leader>pw", desc = "toggle problems inside the workspace" },
+            { "<leader>pd", desc = "toggle problems inside the document" },
+            { "<leader>pq", desc = "toggle quickfixes for problems" },
+            { "<leader>pl", desc = "toggle loclist" },
+            { "<leader>g", group = "goto " },
+            { "<leader>gr", desc = "toggle lsp references" },
+            { "<leader>a", group = "add buffer to harpoon" },
+        })
     end
 }

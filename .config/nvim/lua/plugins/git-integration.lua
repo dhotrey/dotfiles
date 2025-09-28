@@ -6,13 +6,9 @@ return {
         vim.keymap.set('n', '<leader>vd', ':VGit buffer_diff_preview<CR>', {})
         -- documentation --
         local wk = require('which-key')
-        local opts = { prefix = '<leader>' }
-        local mappings = {
-            v = {
-                name = "VGit",
-                d = "git diff"
-            }
-        }
-        wk.register(mappings, opts)
+        wk.add({
+            { "<leader>v", group = "VGit" },
+            { "<leader>vd", desc = "git diff" },
+        })
     end
 }
