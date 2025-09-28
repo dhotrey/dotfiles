@@ -3,116 +3,104 @@ return {
         "williamboman/mason.nvim",
         config = function()
             require("mason").setup()
-        end
+        end,
     },
     {
-        'williamboman/mason-lspconfig.nvim',
+        "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup({
                 ensure_installed = {
                     "clangd",
                     "lua_ls",
                     "gopls",
-                    "ruff_lsp",
-                    "jedi_language_server",
-                    "templ",
-                    "html",
-                    "htmx",
-                    "tailwindcss",
+                    "pylsp",              -- ✅ Active Python LSP
+                    -- "jedi_language_server", -- 💤 Alternative Python LSP (commented)
+                    "rust_analyzer",     -- ✅ Added Rust support
                     "zls",
-                }
-
+                },
             })
-        end
+        end,
     },
     {
         "neovim/nvim-lspconfig",
         config = function()
-            local lspconfig = require('lspconfig')
-            local capabilities = require('cmp_nvim_lsp').default_capabilities()
-            lspconfig.clangd.setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-            })
-            lspconfig.lua_ls.setup({
-                capabilities = capabilities
-            })
-            lspconfig.gopls.setup({
-                capabilities = capabilities,
-                filetypes = { "go", "gomod", "gowork", "gotmpl" }
-            })
-            lspconfig.ruff_lsp.setup({
-                on_attach = on_attach
-            })
-            lspconfig.jedi_language_server.setup({
-                capabilities = capabilities
-            })
+            local lspconfig = vim.lsp.config -- ✅ new API
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-            lspconfig.gleam.setup({
-                capabilities = capabilities
-            })
+            -- Optional global on_attach function
+            -- local on_attach = function(client, bufnr)
+            --   -- custom buffer-local mappings, etc.
+            -- end
 
-            lspconfig.templ.setup({
+            -- ✅ C / C++
+            lspconfig("clangd", {
                 on_attach = on_attach,
                 capabilities = capabilities,
             })
 
-            lspconfig.html.setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                filetypes = { "html", "templ" }
-            })
-
-            lspconfig.htmx.setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                filetypes = { "html", "templ" }
-            })
-
-            lspconfig.zls.setup({
-                on_attach = on_attach,
+            -- ✅ Lua
+            lspconfig("lua_ls", {
                 capabilities = capabilities,
             })
 
-            lspconfig.tailwindcss.setup({
-                on_attach = on_attach,
+            -- ✅ Go
+            lspconfig("gopls", {
                 capabilities = capabilities,
-                filetypes = { "templ", "astro", "javascript", "typescript", "react" },
-                settings = {
-                    tailwindCSS = {
-                        includeLanguages = {
-                            templ = "html",
-                        },
-                    },
-                },
+                filetypes = { "go", "gomod", "gowork", "gotmpl" },
             })
 
-            vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, {})
-            vim.keymap.set('n', '<Enter>', vim.lsp.buf.definition, {})
-            vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
-            vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
-            vim.keymap.set('n', '<leader>gi', vim.lsp.buf.definition, {})
-            -- documentation --
-            local wk = require('which-key')
-            local opts = { prefix = '<leader>' }
+            -- ✅ Python (pylsp)
+            lspconfig("pylsp", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+            })
+
+            -- 💤 Alternative Python LSPs (commented)
+            -- lspconfig("jedi_language_server", {
+            --     capabilities = capabilities,
+            -- })
+
+            -- ✅ Rust
+            lspconfig("rust_analyzer", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+            })
+
+            -- ✅ Zig
+            lspconfig("zls", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+            })
+
+            -- Keymaps
+            vim.keymap.set("n", "<leader>h", vim.lsp.buf.hover, {})
+            vim.keymap.set("n", "<CR>", vim.lsp.buf.definition, {})
+            vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
+            vim.keymap.set("n", "<leader>gi", vim.lsp.buf.definition, {})
+
+            -- Which-key documentation
+            local wk = require("which-key")
+            local opts = { prefix = "<leader>" }
             local mappings = {
                 c = {
                     name = "code",
-                    a = "actions"
+                    a = "actions",
                 },
                 r = {
                     name = "rename",
-                    n = "rename"
+                    n = "rename",
                 },
                 g = {
-                    i = "implementation"
+                    i = "implementation",
                 },
                 h = {
                     name = "hover for documentation",
-                    h = "hover (show documentation)"
-                }
+                    h = "hover (show documentation)",
+                },
             }
             wk.register(mappings, opts)
-        end
-    }
+        end,
+    },
 }
+
