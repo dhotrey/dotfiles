@@ -81,25 +81,15 @@ return {
 
             -- Which-key documentation
             local wk = require("which-key")
-            local opts = { prefix = "<leader>" }
-            local mappings = {
-                c = {
-                    name = "code",
-                    a = "actions",
-                },
-                r = {
-                    name = "rename",
-                    n = "rename",
-                },
-                g = {
-                    i = "implementation",
-                },
-                h = {
-                    name = "hover for documentation",
-                    h = "hover (show documentation)",
-                },
-            }
-            wk.register(mappings, opts)
+            wk.add({
+                { "<leader>c", group = "code" },
+                { "<leader>ca", desc = "actions" },
+                { "<leader>r", group = "rename" },
+                { "<leader>rn", desc = "rename" },
+                { "<leader>gi", desc = "implementation" },
+                { "<leader>h", group = "hover for documentation" },
+                { "<leader>hh", desc = "hover (show documentation)" },
+            })
         end,
     },
 }
