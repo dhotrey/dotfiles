@@ -100,7 +100,7 @@ export PATH=$PATH:$HOME/.local/share/bob/nvim-bin
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 source /home/aryan/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-alias jj=zellij
+# alias jj=zellij
 alias lz=lazygit
 alias bat=batcat
 alias console='textual console'
@@ -184,3 +184,7 @@ bindkey -s "^[f" "tmux-sessionizer\n"
 # This section can be safely removed at any time if needed.
 [[ ! -r '/home/aryan/.opam/opam-init/init.zsh' ]] || source '/home/aryan/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 # END opam configuration
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
