@@ -86,9 +86,9 @@ fi
 # Opam (OCaml) - with proper path detection
 [[ -r "$HOME/.opam/opam-init/init.zsh" ]] && source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
 
-# Atuin (command history)
-[[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
-command -v atuin >/dev/null 2>&1 && eval "$(atuin init zsh)"
+# # Atuin (command history)
+# [[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
+# command -v atuin >/dev/null 2>&1 && eval "$(atuin init zsh)"
 
 # User secrets (optional)
 [[ -f "$HOME/.secrets.sh" ]] && source "$HOME/.secrets.sh"
@@ -146,6 +146,9 @@ alias lear='clear'
 alias clra='clear'
 alias clrea='clear'
 alias celar='clear'
+
+# C++ development
+alias g++='g++ -std=c++20'
 
 # -----------------------------------------------------------------------------
 # Functions
