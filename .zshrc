@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# zmodload zsh/zprof
 # =============================================================================
 # ZSH Configuration
 # =============================================================================
@@ -185,3 +186,11 @@ run_ls_if_empty() {
 zle -N run_ls_if_empty
 bindkey "^M" run_ls_if_empty
 bindkey -s "^[f" "tmux-sessionizer\n"
+
+# Windows Tools Integration
+# (Adjust the username 'aryan' if your Windows user folder is named differently)
+alias code='/mnt/c/Users/aryan/AppData/Local/Programs/Microsoft\ VS\ Code/bin/code'
+alias explorer='/mnt/c/Windows/explorer.exe'
+alias cmd='/mnt/c/Windows/System32/cmd.exe'
+alias powershell='/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe'
+# zprof
