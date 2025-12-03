@@ -13,9 +13,9 @@ return {
                     "clangd",
                     "lua_ls",
                     "gopls",
-                    "pylsp",              -- ✅ Active Python LSP
+                    "pylsp",         -- ✅ Active Python LSP
                     -- "jedi_language_server", -- 💤 Alternative Python LSP (commented)
-                    "rust_analyzer",     -- ✅ Added Rust support
+                    "rust_analyzer", -- ✅ Added Rust support
                     "zls",
                 },
             })
@@ -72,6 +72,7 @@ return {
                 capabilities = capabilities,
             })
 
+            vim.lsp.enable('gleam')
             -- Keymaps
             vim.keymap.set("n", "<leader>h", vim.lsp.buf.hover, {})
             vim.keymap.set("n", "<CR>", vim.lsp.buf.definition, {})
@@ -82,15 +83,14 @@ return {
             -- Which-key documentation
             local wk = require("which-key")
             wk.add({
-                { "<leader>c", group = "code" },
+                { "<leader>c",  group = "code" },
                 { "<leader>ca", desc = "actions" },
-                { "<leader>r", group = "rename" },
+                { "<leader>r",  group = "rename" },
                 { "<leader>rn", desc = "rename" },
                 { "<leader>gi", desc = "implementation" },
-                { "<leader>h", group = "hover for documentation" },
+                { "<leader>h",  group = "hover for documentation" },
                 { "<leader>hh", desc = "hover (show documentation)" },
             })
         end,
     },
 }
-
