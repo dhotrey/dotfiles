@@ -87,13 +87,6 @@ fi
 # Opam (OCaml) - with proper path detection
 [[ -r "$HOME/.opam/opam-init/init.zsh" ]] && source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
 
-# # Atuin (command history)
-# [[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
-# command -v atuin >/dev/null 2>&1 && eval "$(atuin init zsh)"
-
-# User secrets (optional)
-[[ -f "$HOME/.secrets.sh" ]] && source "$HOME/.secrets.sh"
-
 # -----------------------------------------------------------------------------
 # Aliases
 # -----------------------------------------------------------------------------
@@ -194,3 +187,6 @@ alias explorer='/mnt/c/Windows/explorer.exe'
 alias cmd='/mnt/c/Windows/System32/cmd.exe'
 alias powershell='/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe'
 # zprof
+
+export PATH=$PATH:/home/aryan/.iximiuz/labctl/bin
+source <(labctl completion zsh)
