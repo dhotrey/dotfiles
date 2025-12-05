@@ -174,6 +174,14 @@ run_ls_if_empty() {
 }
 
 # -----------------------------------------------------------------------------
+# Clipboard Integration (WSL Fix)
+# -----------------------------------------------------------------------------
+# Override clipcopy to explicitly use the Windows clipboard tool
+clipcopy() {
+    cat "${1:-/dev/stdin}" | /mnt/c/Windows/System32/clip.exe
+}
+
+# -----------------------------------------------------------------------------
 # Key Bindings
 # -----------------------------------------------------------------------------
 zle -N run_ls_if_empty
