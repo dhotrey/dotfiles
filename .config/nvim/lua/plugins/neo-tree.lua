@@ -4,7 +4,7 @@ return {
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
-        "MunifTanjim/nui.nvim"
+        "MunifTanjim/nui.nvim",
     },
     opts = {
         filesystem = {
@@ -14,21 +14,18 @@ return {
                 hide_dotfiles = false,
                 hide_gitignored = false,
                 hide_by_name = {
-                    '.git',
+                    ".git",
                 },
             },
         },
+        source_selector = {
+            winbar = true,
+            statusline = false,
+        },
     },
-    config = function()
-        vim.keymap.set("n", "<A-b>", ":Neotree filesystem toggle reveal right<CR>", {
-
-        })
-        local ntree = require("neo-tree")
-        ntree.setup({
-            source_selector = {
-                winbar = true,
-                statusline = false
-            }
-        })
-    end
+    config = function(_, opts)
+        vim.keymap.set("n", "<A-b>", ":Neotree filesystem toggle reveal right<CR>", { noremap = true, silent = true })
+        require("neo-tree").setup(opts)
+    end,
 }
+

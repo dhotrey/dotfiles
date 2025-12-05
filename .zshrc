@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# zmodload zsh/zprof
 # =============================================================================
 # ZSH Configuration
 # =============================================================================
@@ -85,13 +86,6 @@ fi
 
 # Opam (OCaml) - with proper path detection
 [[ -r "$HOME/.opam/opam-init/init.zsh" ]] && source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
-
-# # Atuin (command history)
-# [[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
-# command -v atuin >/dev/null 2>&1 && eval "$(atuin init zsh)"
-
-# User secrets (optional)
-[[ -f "$HOME/.secrets.sh" ]] && source "$HOME/.secrets.sh"
 
 # -----------------------------------------------------------------------------
 # Aliases
@@ -180,8 +174,27 @@ run_ls_if_empty() {
 }
 
 # -----------------------------------------------------------------------------
+# Clipboard Integration (WSL Fix)
+# -----------------------------------------------------------------------------
+# Override clipcopy to explicitly use the Windows clipboard tool
+clipcopy() {
+    cat "${1:-/dev/stdin}" | /mnt/c/Windows/System32/clip.exe
+}
+
+# -----------------------------------------------------------------------------
 # Key Bindings
 # -----------------------------------------------------------------------------
 zle -N run_ls_if_empty
 bindkey "^M" run_ls_if_empty
 bindkey -s "^[f" "tmux-sessionizer\n"
+
+# Windows Tools Integration
+# (Adjust the username 'aryan' if your Windows user folder is named differently)
+alias code='/mnt/c/Users/aryan/AppData/Local/Programs/Microsoft\ VS\ Code/bin/code'
+alias explorer='/mnt/c/Windows/explorer.exe'
+alias cmd='/mnt/c/Windows/System32/cmd.exe'
+alias powershell='/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe'
+# zprof
+
+export PATH=$PATH:/home/aryan/.iximiuz/labctl/bin
+source <(labctl completion zsh)
