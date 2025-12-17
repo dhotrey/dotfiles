@@ -10,12 +10,6 @@ vim.cmd("set incsearch")
 vim.cmd("set ignorecase")
 vim.g.neovide_transparency = 0.99
 
-vim.filetype.add({
-    extension = {
-        templ = "templ",
-    },
-})
-
 
 -- remap <C-ww> and <C-w> to use alt.
 -- Map <A-w> to start window switching in normal mode
@@ -30,6 +24,7 @@ vim.api.nvim_set_keymap('n', '<A-l>', '<C-l>', { noremap = true, silent = true }
 
 vim.api.nvim_set_keymap('n', '<A-o>', '<C-o>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<A-r>', '<C-r>', { noremap = true, silent = true })
+vim.opt.scrolloff = 7
 -- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 --     pattern = "*.go",
 --     callback = function()
