@@ -7,6 +7,7 @@
 # -----------------------------------------------------------------------------
 # Oh-My-Zsh Configuration
 # -----------------------------------------------------------------------------
+DISABLE_AUTO_UPDATE="true"
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME='intheloop'
 
@@ -21,7 +22,6 @@ plugins=(
     golang
     fzf
     gitignore
-    z
     copyfile
     copypath
     colored-man-pages
@@ -55,23 +55,32 @@ path=(
     "${path[@]}"
 )
 
-# Add Go binary path (dynamic)
-if command -v go >/dev/null 2>&1; then
-    gopath_bin="$(go env GOPATH)/bin"
-    path=("$gopath_bin" "${path[@]}")
-fi
+ path=(
+    "$HOME/go/bin"
+    "${path[@]}"
+)
 
 export PATH
 
 # -----------------------------------------------------------------------------
 # External Tools Integration
 # -----------------------------------------------------------------------------
+# Zoxide
+eval "$(zoxide init zsh --cmd cd)"
 # SSH Agent
-eval "$(ssh-agent -s)" > /dev/null
+if [ -z "$SSH_AUTH_SOCK" ]; then
+   eval "$(ssh-agent -s)" > /dev/null
+fi
 
 # Homebrew
 if [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
+    export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
+    export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
+    fpath[1,0]="/home/linuxbrew/.linuxbrew/share/zsh/site-functions";
+    export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
+    [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}";
+    export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:${INFOPATH:-}";
 fi
 
 # Syntax Highlighting - Use more flexible path detection
@@ -92,10 +101,12 @@ fi
 # -----------------------------------------------------------------------------
 
 # Navigation and File Operations
+alias t="tmux"
 alias dc="cd .."
+alias z="cd"
 alias la="ls -a"
-alias ls='exa --icons'
-alias lg='exa --icons --long --git'
+alias ls='eza'
+alias lg='eza --icons --long --git'
 alias ks='ls'  # Common typo
 
 # Editor and Development Tools
@@ -194,7 +205,13 @@ alias code='/mnt/c/Users/aryan/AppData/Local/Programs/Microsoft\ VS\ Code/bin/co
 alias explorer='/mnt/c/Windows/explorer.exe'
 alias cmd='/mnt/c/Windows/System32/cmd.exe'
 alias powershell='/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe'
-# zprof
 
 export PATH=$PATH:/home/aryan/.iximiuz/labctl/bin
-source <(labctl completion zsh)
+if [[ -f "$HOME/.local/share/labctl_completion.zsh" ]]; then
+    source "$HOME/.local/share/labctl_completion.zsh"
+# source <(labctl completion zsh)
+fi
+# zprof
+
+# bun completions
+[ -s "/home/aryan/.bun/_bun" ] && source "/home/aryan/.bun/_bun"
