@@ -1,67 +1,52 @@
 #!/usr/bin/env zsh
+# zmodload zsh/zprof
 source ~/.config/zsh/zsh-defer/zsh-defer.plugin.zsh
-zmodload zsh/zprof
+# zmodload zsh/zprof # Commented out for speed. zprof adds overhead.
+
 # =============================================================================
-# ZSH Configuration
+# 1. CRITICAL SPEED FLAGS
 # =============================================================================
-# Optimization: Uncommented for speed
+# Tell Oh-My-Zsh NOT to initialize completions (we do it faster manually below)
+skip_global_compinit=1
+# Stop Zsh from checking permissions on every startup
+ZSH_DISABLE_COMPFIX=true
+
 setopt PATH_DIRS
 unsetopt BG_NICE
 
-# -----------------------------------------------------------------------------
-# Oh-My-Zsh Configuration
-# -----------------------------------------------------------------------------
+# =============================================================================
+# 2. OH-MY-ZSH & PLUGINS
+# =============================================================================
 DISABLE_AUTO_UPDATE="true"
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME='intheloop'
-
-# Oh-My-Zsh Settings
 DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 
-skip_global_compinit=1
-# Oh-My-Zsh Plugins
+# SSH Agent: Lazy load to fix startup speed while keeping functionality
+zstyle :omz:plugins:ssh-agent lazy yes
+zstyle :omz:plugins:ssh-agent identities id_rsa
+
 plugins=(
     git
-    ssh-agent 
-    python
-    golang
+    ssh-agent
+    # python
+    # golang
     gitignore
     copyfile
     copypath
-    colored-man-pages
-    # command-not-found
-    # zsh-syntax-highlighting
 )
-# Optimization: Commented out ssh-agent settings
-zstyle :omz:plugins:ssh-agent identities id_rsa
-zstyle :omz:plugins:ssh-agent lifetime 4h
-
-# Define completion cache path
-ZCOMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
-
-# Optimization: Manually handle completion to bypass OMZ's slow check (~140ms saving)
-autoload -Uz compinit
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-  compinit -C
-else
-  compinit -i
-fi
-ZSH_DISABLE_COMPFIX=true
-
-# Load Oh-My-Zsh
+zsh-defer -c 'source $ZSH/plugins/python/python.plugin.zsh'
+zsh-defer -c 'source $ZSH/plugins/golang/golang.plugin.zsh'
 source "$ZSH/oh-my-zsh.sh"
 
-# -----------------------------------------------------------------------------
-# Environment Variables
-# -----------------------------------------------------------------------------
+# =============================================================================
+# 4. ENVIRONMENT
+# =============================================================================
 export EDITOR="nvim"
 export BUN_INSTALL="$HOME/.bun"
 
-# -----------------------------------------------------------------------------
-# PATH Configuration
-# -----------------------------------------------------------------------------
-typeset -U path  # Keep unique entries in path array
+typeset -U path
 path=(
     "$HOME/.local/bin"
     "$HOME/.local/share/bob/nvim-bin"
@@ -72,86 +57,63 @@ path=(
     "$HOME/.cargo/bin"
     "${path[@]}"
 )
-
 export PATH
 
-# -----------------------------------------------------------------------------
-# External Tools Integration
-# -----------------------------------------------------------------------------
+# =============================================================================
+# 5. EXTERNAL TOOLS (LAZY & DEFERRED)
+# =============================================================================
 
-# Optimization: Lazy Load Zoxide
+# Zoxide: Lazy Load (Runs only when you first type 'cd' or 'z')
 cd() {
     eval "$(zoxide init zsh --cmd cd)"
     cd "$@"
 }
 
-# Restore FZF Pretty View 
-[[ -f /usr/share/fzf/shell/key-bindings.zsh ]] && source /usr/share/fzf/shell/key-bindings.zsh
-[[ -f /usr/share/fzf/shell/completion.zsh ]] && source /usr/share/fzf/shell/completion.zsh
+# FZF: Defer loading to after prompt is interactive
+fzf_loader() {
+    [[ -f /usr/share/fzf/shell/key-bindings.zsh ]] && source /usr/share/fzf/shell/key-bindings.zsh
+    [[ -f /usr/share/fzf/shell/completion.zsh ]] && source /usr/share/fzf/shell/completion.zsh
+    export FZF_DEFAULT_COMMAND='fd --type f'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+}
+zsh-defer fzf_loader
 
-export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-# Homebrew
-if [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
-    export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
-    export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
-    fpath[1,0]="/home/linuxbrew/.linuxbrew/share/zsh/site-functions";
-    export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
-    [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}";
-    export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:${INFOPATH:-}";
-fi
-
-# Syntax Highlighting
+# Syntax Highlighting: Deferred
 zsh-defer source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Language-specific environments
-# Optimization: Lazy Load Cargo
+# Language Environments: Lazy Load
+bun() {
+    unset -f bun
+    [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
+    bun "$@"
+}
 cargo() {
     unset -f cargo
     [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
     cargo "$@"
 }
 
-# Optimization: Lazy Load Bun
-bun() {
-    unset -f bun
-    [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
-    bun "$@"
-}
-
-# -----------------------------------------------------------------------------
-# Aliases
-# -----------------------------------------------------------------------------
-
-# Navigation and File Operations
+# =============================================================================
+# 6. ALIASES & FUNCTIONS
+# =============================================================================
 alias t="tmux"
 alias dc="cd .."
-# alias z="cd"
-alias la="ls -a"
+unalias ls 2>/dev/null  # Remove OMZ's ls if it exists
 alias ls='eza'
+alias la="ls -a"
 alias lg='eza --icons --long --git'
-alias ks='ls'  # Common typo
+alias ks='ls'
 alias ff=fastfetch
-
-# Editor and Development Tools
 alias vim=nvim
 alias v=nvim
-
-# Git Shortcuts
 alias gce='git commit -a -m "update"'
 alias lz=lazygit
-
-# Development Tools
 alias yz=yazi
-
-# Copy utilities
 alias cppath=copypath
 alias cpfile=copyfile
+alias g++='g++ -std=c++20'
 
-
-# Clear command variants 
+# Typos
 alias claer='clear'
 alias cler='clear' 
 alias clcear='clear'
@@ -168,13 +130,7 @@ alias clra='clear'
 alias clrea='clear'
 alias celar='clear'
 
-# C++ development
-alias g++='g++ -std=c++20'
-
-# -----------------------------------------------------------------------------
 # Functions
-# -----------------------------------------------------------------------------
-
 run_ls_if_empty() {
     if [[ -z "$BUFFER" ]]; then
         BUFFER="ls"
@@ -184,25 +140,34 @@ run_ls_if_empty() {
     fi
 }
 
-# -----------------------------------------------------------------------------
-# Clipboard Integration 
-# -----------------------------------------------------------------------------
 clipcopy() {
-    cat "${1:-/dev/stdin}" | wl-copy
+    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+        cat "${1:-/dev/stdin}" | wl-copy
+    else
+        cat "${1:-/dev/stdin}" | xclip -selection clipboard
+    fi
 }
 
-# -----------------------------------------------------------------------------
-# Key Bindings
-# -----------------------------------------------------------------------------
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+# Keybindings
 zle -N run_ls_if_empty
 bindkey "^M" run_ls_if_empty
+bindkey -s "^[f" "tmux-sessionizer\n"
 
-# bun completions (Redundant - handled by lazy load above, commented out)
-# [ -s "/home/aryan/.bun/_bun" ] && source "/home/aryan/.bun/_bun"
+# Linux Integration
+alias code='code'
+alias explorer='nautilus .'
+alias open='xdg-open'
 
-# Compile the completion dump file in the background for next time
+# Background cache compile
 zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
 if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
-  zcompile "$zcompdump"
+  zcompile "$zcompdump" &!
 fi
-zprof
+# zprof
