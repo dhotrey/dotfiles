@@ -1,9 +1,13 @@
 #!/usr/bin/env zsh
-zmodload zsh/zprof
+source ~/.config/zsh/zsh-defer/zsh-defer.plugin.zsh
+# zmodload zsh/zprof
 # =============================================================================
 # ZSH Configuration
 # =============================================================================
-
+# # Faster path lookups
+# setopt PATH_DIRS
+# # Disable backgrounding completions to save forks
+# unsetopt BG_NICE
 # -----------------------------------------------------------------------------
 # Oh-My-Zsh Configuration
 # -----------------------------------------------------------------------------
@@ -18,18 +22,25 @@ COMPLETION_WAITING_DOTS="true"
 # Oh-My-Zsh Plugins
 plugins=(
     git
+    ssh-agent
     python
     golang
     gitignore
     copyfile
     copypath
     colored-man-pages
-    command-not-found
-    zsh-syntax-highlighting
+    # command-not-found
+    # zsh-syntax-highlighting
 )
-# Load Oh-My-Zsh
-source "$ZSH/oh-my-zsh.sh"
+zstyle :omz:plugins:ssh-agent identities id_rsa
+zstyle :omz:plugins:ssh-agent lifetime 4h
+# Only check completions once a day
+# Define completion cache path
+ZCOMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
 
+# Load Oh-My-Zsh (OMZ calls compinit internally)
+# To speed it up, we can tell OMZ to be quiet
+source "$ZSH/oh-my-zsh.sh"
 # -----------------------------------------------------------------------------
 # Environment Variables
 # -----------------------------------------------------------------------------
@@ -56,13 +67,11 @@ export PATH
 # -----------------------------------------------------------------------------
 # External Tools Integration
 # -----------------------------------------------------------------------------
+
 # Zoxide
 eval "$(zoxide init zsh --cmd cd)"
-# SSH Agent
-if [ -z "$SSH_AUTH_SOCK" ]; then
-   eval "$(ssh-agent -s)" > /dev/null
-fi
-# Restore FZF Pretty View (DNF installation paths)
+
+# Restore FZF Pretty View 
 [[ -f /usr/share/fzf/shell/key-bindings.zsh ]] && source /usr/share/fzf/shell/key-bindings.zsh
 [[ -f /usr/share/fzf/shell/completion.zsh ]] && source /usr/share/fzf/shell/completion.zsh
 
@@ -81,10 +90,7 @@ if [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
 fi
 
 # Syntax Highlighting
-if [[ -f "$HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-    source "$HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-fi
-
+zsh-defer source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Language-specific environments
 [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
@@ -120,7 +126,7 @@ alias cppath=copypath
 alias cpfile=copyfile
 
 
-# Clear command variants (Restored all typos)
+# Clear command variants 
 alias claer='clear'
 alias cler='clear' 
 alias clcear='clear'
@@ -144,19 +150,6 @@ alias g++='g++ -std=c++20'
 # Functions
 # -----------------------------------------------------------------------------
 
-go_fmt() {
-    go fmt ./...
-}
-
-x() {
-    if [[ $# -eq 2 ]]; then
-        exercism download --track="$1" --exercise="$2"
-    else
-        echo "Usage: x <track> <exercise>"
-        echo "Example: x zig leap"
-    fi
-}
-
 run_ls_if_empty() {
     if [[ -z "$BUFFER" ]]; then
         BUFFER="ls"
@@ -167,14 +160,10 @@ run_ls_if_empty() {
 }
 
 # -----------------------------------------------------------------------------
-# Clipboard Integration (Fedora Fix)
+# Clipboard Integration 
 # -----------------------------------------------------------------------------
 clipcopy() {
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        cat "${1:-/dev/stdin}" | wl-copy
-    else
-        cat "${1:-/dev/stdin}" | xclip -selection clipboard
-    fi
+    cat "${1:-/dev/stdin}" | wl-copy
 }
 
 # -----------------------------------------------------------------------------
@@ -182,24 +171,13 @@ clipcopy() {
 # -----------------------------------------------------------------------------
 zle -N run_ls_if_empty
 bindkey "^M" run_ls_if_empty
-bindkey -s "^[f" "tmux-sessionizer\n"
-
-# Linux Tools Integration (Updated from Windows paths)
-alias code='code'
-alias explorer='nautilus .'
-alias open='xdg-open'
-
-export PATH=$PATH:/home/aryan/.iximiuz/labctl/bin
-if [[ -f "$HOME/.local/share/labctl_completion.zsh" ]]; then
-    source "$HOME/.local/share/labctl_completion.zsh"
-fi
 
 # bun completions
 [ -s "/home/aryan/.bun/_bun" ] && source "/home/aryan/.bun/_bun"
-#
+
 # Compile the completion dump file in the background for next time
 zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
 if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
   zcompile "$zcompdump"
 fi
-zprof
+# zprof
