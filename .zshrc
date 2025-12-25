@@ -11,8 +11,14 @@ skip_global_compinit=1
 # Stop Zsh from checking permissions on every startup
 ZSH_DISABLE_COMPFIX=true
 
+## homebrew settings
+
+
+
 setopt PATH_DIRS
 unsetopt BG_NICE
+HOMEBREW_NO_AUTO_UPDATE=1
+HOMEBREW_NO_ENV_HINTS=1
 
 # =============================================================================
 # 2. OH-MY-ZSH & PLUGINS
@@ -29,6 +35,7 @@ zstyle :omz:plugins:ssh-agent identities id_rsa
 
 plugins=(
     git
+    docker
     ssh-agent
     # python
     # golang
