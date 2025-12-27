@@ -168,9 +168,10 @@ bindkey "^M" run_ls_if_empty
 bindkey -s "^[f" "tmux-sessionizer\n"
 
 # Linux Integration
-alias code='code'
 alias explorer='nautilus .'
 alias open='xdg-open'
+alias dark-mode="lookandfeeltool -a org.kde.breezedark.desktop"
+alias light-mode="lookandfeeltool -a org.kde.breeze.desktop"
 
 # Background cache compile
 zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
