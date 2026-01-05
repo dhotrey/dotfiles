@@ -152,8 +152,14 @@ alias open='xdg-open'
 alias dark-mode="lookandfeeltool -a org.kde.breezedark.desktop"
 alias light-mode="lookandfeeltool -a org.kde.breeze.desktop"
 
+# Programming
+
 # C++ compilation with modern standard
 alias g++='g++ -std=c++20'
+
+# Python
+alias py=python
+
 
 # Common typos for 'clear'
 alias claer='clear' cler='clear' clcear='clear' csl='clear' cls='clear'
@@ -256,3 +262,9 @@ cargo() {
 # END OF CONFIG
 # =============================================================================
 # zprof
+
+# opencode
+export PATH=/home/aryan/.opencode/bin:$PATH
+
+# Amp CLI
+export PATH="/home/aryan/.amp/bin:$PATH"
