@@ -3,6 +3,8 @@ keybind = ctrl+b>"=new_split
 keybind = ctrl+b>c=new_tab
 keybind = ctrl+b>n=next_tab
 keybind = ctrl+b>p=previous_tab
+shell-integration = zsh
+
 # This is the configuration file for Ghostty.
 #
 # This template file has been automatically created at the following
