@@ -6,6 +6,7 @@
 # SHELL OPTIONS
 # =============================================================================
 setopt PATH_DIRS
+set -o vi
 unsetopt BG_NICE
 
 # History configuration
@@ -151,7 +152,7 @@ alias explorer='nautilus .'
 alias open='xdg-open'
 alias dark-mode="lookandfeeltool -a org.kde.breezedark.desktop"
 alias light-mode="lookandfeeltool -a org.kde.breeze.desktop"
-
+alias zotero="(/home/aryan/Applications/Zotero_linux-x86_64/zotero >/dev/null 2>&1 &!)"
 # Programming
 
 # C++ compilation with modern standard
@@ -218,7 +219,7 @@ run_ls_if_empty() {
 # =============================================================================
 zle -N run_ls_if_empty
 bindkey "^M" run_ls_if_empty           # Enter key
-bindkey -s "^[f" "tmux-sessionizer\n"  # Alt+F for tmux sessionizer
+# bindkey -s "^[f" "tmux-sessionizer\n"  # Alt+F for tmux sessionizer
 
 # =============================================================================
 # DEFERRED LOADS (after prompt appears, async)
@@ -268,3 +269,10 @@ export PATH=/home/aryan/.opencode/bin:$PATH
 
 # Amp CLI
 export PATH="/home/aryan/.amp/bin:$PATH"
+
+# bun completions
+[ -s "/home/aryan/.bun/_bun" ] && source "/home/aryan/.bun/_bun"
+
+# terminal-wakatime setup
+export PATH="$HOME/.wakatime:$PATH"
+eval "$(terminal-wakatime init)"
