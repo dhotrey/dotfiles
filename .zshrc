@@ -233,6 +233,11 @@ cd() {
     cd "$@"
 }
 
+cdf() {
+  dir=$(fd "$1" | head -n 1)
+  [ -n "$dir" ] && cd "$dir"
+}
+
 # FZF: Fuzzy finder integration
 zsh-defer -c '
     if [[ -f /usr/share/fzf/shell/key-bindings.zsh ]]; then
@@ -276,3 +281,11 @@ export PATH="/home/aryan/.amp/bin:$PATH"
 # terminal-wakatime setup
 export PATH="$HOME/.wakatime:$PATH"
 eval "$(terminal-wakatime init)"
+
+# Added by get-aspire-cli.sh
+export PATH="$HOME/.aspire/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/aryan/.lmstudio/bin"
+# End of LM Studio CLI section
+
