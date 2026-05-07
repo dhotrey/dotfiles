@@ -1,0 +1,78 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "agent_servers": {
+    "github-copilot-cli": {
+      "type": "registry"
+    },
+    "cursor": {
+      "type": "registry"
+    }
+  },
+  "agent": {
+    "dock": "right",
+    "default_profile": "ask",
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "claude-haiku-4.5",
+      "enable_thinking": false
+    },
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "calls": {
+    "mute_on_join": true
+  },
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "VSCode Icons for Zed (Dark)"
+  },
+  "redact_private_values": true,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 900
+    }
+  },
+  "ui_font_family": ".ZedSans",
+  "buffer_font_family": "JetBrainsMono Nerd Font Mono",
+  "terminal": {
+    "font_family": "JetBrainsMono Nerd Font Mono"
+  },
+  "edit_predictions": {
+    "provider": "none"
+  },
+  "project_panel": {
+    "dock": "right"
+  },
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "Catppuccin Latte",
+    "dark": "Ayu Dark"
+  },
+  "auto_install_extensions": {
+    "wakatime": true
+  }
+}
