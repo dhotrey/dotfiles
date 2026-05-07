@@ -36,6 +36,7 @@ unsetopt BG_NICE      # Don't nice background jobs
 # =============================================================================
 export EDITOR="nvim"
 export BUN_INSTALL="$HOME/.bun"
+export GOTOOLCHAIN=auto
 
 # Homebrew: Disable auto-update for speed
 export HOMEBREW_NO_AUTO_UPDATE=1
@@ -288,4 +289,52 @@ export PATH="$HOME/.aspire/bin:$PATH"
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/aryan/.lmstudio/bin"
 # End of LM Studio CLI section
+# CF CLI completions
+[[ -f "/home/aryan/.config/cf/completions/_cf.zsh" ]] && source "/home/aryan/.config/cf/completions/_cf.zsh"
 
+
+# Toggle YouTube + X blocking via /etc/hosts
+toggle_block_sites() {
+  HOSTS_FILE="/etc/hosts"
+  START_MARK="# >>> block-sites-start"
+  END_MARK="# <<< block-sites-end"
+
+  BLOCK=$(cat <<'EOF'
+# >>> block-sites-start
+0.0.0.0 youtube.com
+0.0.0.0 www.youtube.com
+0.0.0.0 m.youtube.com
+0.0.0.0 youtu.be
+0.0.0.0 youtube-nocookie.com
+0.0.0.0 www.youtube-nocookie.com
+0.0.0.0 i.ytimg.com
+0.0.0.0 ytimg.com
+0.0.0.0 x.com
+0.0.0.0 www.x.com
+0.0.0.0 mobile.x.com
+0.0.0.0 twitter.com
+0.0.0.0 www.twitter.com
+0.0.0.0 mobile.twitter.com
+0.0.0.0 t.co
+0.0.0.0 abs.twimg.com
+0.0.0.0 api.twitter.com
+# <<< block-sites-end
+EOF
+)
+
+  if sudo grep -q "$START_MARK" "$HOSTS_FILE"; then
+    echo "Unblocking sites..."
+    sudo sed -i "/$START_MARK/,/$END_MARK/d" "$HOSTS_FILE"
+  else
+    echo "Blocking sites..."
+    echo "$BLOCK" | sudo tee -a "$HOSTS_FILE" > /dev/null
+  fi
+
+  echo "Flushing DNS cache..."
+  sudo systemd-resolve --flush-caches 2>/dev/null || true
+  sudo service network-manager restart 2>/dev/null || true
+
+  echo "Done."
+}
+
+alias blocksites="toggle_block_sites"
