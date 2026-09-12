@@ -7,6 +7,46 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "diff_view_style": "split",
+  "code_lens": "on",
+  "languages": {
+    "Python": {
+      "colorize_brackets": true,
+      "inlay_hints": {
+        "show_background": false
+      },
+      "indent_guides": {
+        "background_coloring": "indent_aware",
+        "coloring": "indent_aware"
+      }
+    }
+  },
+  "diagnostics": {
+    "lsp_pull_diagnostics": {
+      "enabled": false
+    },
+    "include_warnings": false,
+    "inline": {
+      "enabled": false
+    }
+  },
+  "diagnostics_max_severity": "error",
+  "ssh_connections": [
+    {
+      "host": "infs3200-e8fb8a49.zones.eait.uq.edu.au",
+      "username": "s4985050",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/s4985050/Assignment-2"
+          ]
+        }
+      ]
+    }
+  ],
+  "cli_default_open_behavior": "existing_window",
+  "disable_ai": false,
   "outline_panel": {
     "dock": "left"
   },
@@ -21,10 +61,43 @@
     "metrics": false
   },
   "agent_servers": {
+    "opencode": {
+      "default_config_options": {
+        "mode": "build",
+        "effort": "high",
+        "model": "opencode/x-preview-f-free"
+      },
+      "type": "registry"
+    },
+    "gemini": {
+      "type": "registry"
+    },
+    "codex-acp": {
+      "default_config_options": {
+        "reasoning_effort": "xhigh",
+        "model": "gpt-5.6-terra"
+      },
+      "type": "registry"
+    },
+    "amp-acp": {
+      "type": "registry"
+    },
     "github-copilot-cli": {
       "type": "registry"
     },
     "cursor": {
+      "default_config_options": {
+        "effort": "high",
+        "reasoning": "max",
+        "fast": "false",
+        "model": "gpt-5.6-sol",
+        "mode": "agent"
+      },
+      "favorite_config_option_values": {
+        "mode": [
+          "ask"
+        ]
+      },
       "type": "registry"
     }
   },
@@ -43,7 +116,7 @@
     "mute_on_join": true
   },
   "icon_theme": {
-    "mode": "system",
+    "mode": "light",
     "light": "Zed (Default)",
     "dark": "VSCode Icons for Zed (Dark)"
   },
@@ -69,8 +142,8 @@
   "buffer_font_size": 15,
   "theme": {
     "mode": "dark",
-    "light": "Catppuccin Latte",
-    "dark": "Ayu Dark"
+    "light": "Gruvbox Light Hard",
+    "dark": "GitHub Dark Tritanopia"
   },
   "auto_install_extensions": {
     "wakatime": true

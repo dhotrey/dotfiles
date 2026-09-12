@@ -133,6 +133,7 @@ alias grhh='git reset --hard HEAD'
 # Navigation & listing
 alias t="tmux"
 alias dc="cd .."
+alias l='eza -s modified'
 alias ls='eza'
 alias la='eza -a'
 alias ll='eza -l'
@@ -147,12 +148,39 @@ alias v='nvim'
 alias ff='fastfetch'
 alias lz='lazygit'
 alias yz='yazi'
+alias icat='kitten icat'
 
 # System
 alias explorer='nautilus .'
 alias open='xdg-open'
-alias dark-mode="lookandfeeltool -a org.kde.breezedark.desktop"
-alias light-mode="lookandfeeltool -a org.kde.breeze.desktop"
+
+# Keep the desktop, Kitty, and Neovim themes in sync.
+_set-theme-mode() {
+    local mode="$1"
+    local theme_dir="$HOME/.config/kitty"
+    local mode_file="$HOME/.config/theme-mode"
+
+    print -r -- "$mode" > "$mode_file"
+
+    if (( $+commands[lookandfeeltool] )); then
+        if [[ "$mode" == light ]]; then
+            lookandfeeltool -a org.kde.breeze.desktop
+        else
+            lookandfeeltool -a org.kde.breezedark.desktop
+        fi
+    fi
+
+    cp "$theme_dir/$mode.conf" "$theme_dir/current-theme.conf"
+
+    if (( $+commands[kitty] )) && [[ -n "$KITTY_WINDOW_ID" ]]; then
+        if ! kitty @ set-colors --all --configured "$theme_dir/current-theme.conf" >/dev/null 2>&1; then
+            print -u2 -- "Kitty theme saved; restart Kitty once to enable live theme switching."
+        fi
+    fi
+}
+
+light-mode() { _set-theme-mode light; }
+dark-mode() { _set-theme-mode dark; }
 alias zotero="(/home/aryan/Applications/Zotero_linux-x86_64/zotero >/dev/null 2>&1 &!)"
 # Programming
 
@@ -338,3 +366,8 @@ EOF
 }
 
 alias blocksites="toggle_block_sites"
+. "/home/aryan/.deno/env"
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/aryan/.local/bin:$PATH"
