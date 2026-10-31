@@ -7,6 +7,14 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "show_edit_predictions": false,
+  "proxy": "",
+  "markdown_preview": {
+    "open_markdown_files_in_preview": false
+  },
+  "cursor_animation": {
+    "enabled": true
+  },
   "diff_view_style": "split",
   "code_lens": "on",
   "languages": {
@@ -51,6 +59,7 @@
     "dock": "left"
   },
   "collaboration_panel": {
+    "button": false,
     "dock": "left"
   },
   "git_panel": {
@@ -74,8 +83,10 @@
     },
     "codex-acp": {
       "default_config_options": {
-        "reasoning_effort": "xhigh",
-        "model": "gpt-5.6-terra"
+        "fast-mode": false,
+        "mode": "agent-full-access",
+        "reasoning_effort": "high",
+        "model": "gpt-6.1-sol"
       },
       "type": "registry"
     },
@@ -90,7 +101,7 @@
         "effort": "high",
         "reasoning": "max",
         "fast": "false",
-        "model": "gpt-5.6-sol",
+        "model": "grok-4.6",
         "mode": "agent"
       },
       "favorite_config_option_values": {
@@ -102,6 +113,11 @@
     }
   },
   "agent": {
+    "show_turn_stats": true,
+    "thinking_display": "always_collapsed",
+    "threads_sidebar": {
+      "position": "left"
+    },
     "dock": "right",
     "default_profile": "ask",
     "default_model": {
@@ -132,6 +148,7 @@
     "font_family": "JetBrainsMono Nerd Font Mono"
   },
   "edit_predictions": {
+    "allow_data_collection": "no",
     "provider": "none"
   },
   "project_panel": {
@@ -142,10 +159,7 @@
   "buffer_font_size": 15,
   "theme": {
     "mode": "dark",
-    "light": "Gruvbox Light Hard",
-    "dark": "GitHub Dark Tritanopia"
-  },
-  "auto_install_extensions": {
-    "wakatime": true
+    "light": "GitHub Light Tritanopia",
+    "dark": "GitHub Dark Colorblind"
   }
 }

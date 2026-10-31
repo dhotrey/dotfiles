@@ -126,6 +126,7 @@ alias grv='git remote -v'
 alias gclean='git clean -fd'
 alias grh='git reset HEAD'
 alias grhh='git reset --hard HEAD'
+alias cdx='codex'
 
 # =============================================================================
 # BASIC ALIASES
@@ -306,10 +307,6 @@ export PATH="/home/aryan/.amp/bin:$PATH"
 
 # bun completions
 [ -s "/home/aryan/.bun/_bun" ] && source "/home/aryan/.bun/_bun"
-
-# terminal-wakatime setup
-export PATH="$HOME/.wakatime:$PATH"
-eval "$(terminal-wakatime init)"
 
 # Added by get-aspire-cli.sh
 export PATH="$HOME/.aspire/bin:$PATH"
