@@ -142,8 +142,8 @@ alias lg='eza --icons --long --git'
 alias ks='ls'  # Typo alias
 
 # Editors
-alias vim='nvim'
-alias v='nvim'
+alias vim='NVIM_APPNAME=nvim-writing nvim'
+# alias v='nvim'
 
 # Tools
 alias ff='fastfetch'
